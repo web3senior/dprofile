@@ -1,0 +1,24 @@
+{
+  "protocol": "https://mintdid.me",
+  "published": true,
+  "types": {
+    "profile": {
+      "schema": "https://mintdid.me/schemas/profileSchema",
+      "dataFormats": ["application/json"]
+    }
+  },
+  "structure": {
+    "profile": {
+      "$actions": [
+        {
+          "who": "anyone",
+          "can": "read"
+        },
+        {
+          "who": "anyone",
+          "can": "write"
+        }
+      ]
+    }
+  }
+}
