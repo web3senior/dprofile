@@ -32,12 +32,13 @@ export default function New({ title }) {
       const profileData = {
         '@type': 'profile',
         fullname: document.querySelector('[name="fullname"]').value,
-        Bio: document.querySelector('[name="bio"]').value,
+        bio: document.querySelector('[name="bio"]').value,
         gender: document.querySelector('[name="gender"]').value,
-        Age: document.querySelector('[name="age"]').value,
+        age: document.querySelector('[name="age"]').value,
+        handler: document.querySelector('[name="handler"]').value,
         picture: pfp,
         author: auth.userDid,
-        recipient: auth.mintDIDnode,
+        recipient: auth.userDid,
       }
       const { record } = await web5.dwn.records.create({
         data: profileData,
@@ -48,7 +49,7 @@ export default function New({ title }) {
           schema: auth.protocolDefinition.types.profile.schema,
           dataFormat: auth.protocolDefinition.types.profile.dataFormats[0],
           author: auth.userDid,
-          recipient: auth.mintDIDnode,
+          recipient: auth.userDid,
         },
         encryption: {
           enabled: true,
@@ -58,7 +59,7 @@ export default function New({ title }) {
 
       const { status } = await record.send(auth.mintDIDnode)
       console.log(status)
-
+      if (status.code === 202 && status.detail === 'Accepted') toast.success(`Your Dprofile created successfully`)
       return record
     })
   }
@@ -105,13 +106,13 @@ export default function New({ title }) {
         <div className={`${styles.didItem} card`}>
           <div className={`card__header`}>New profile form</div>
           <div className="card__body">
-
-          <ul className=" d-flex flex-column align-items-center justify-content-center" style={{ rowGap: '1rem' }}>
+            <ul className=" d-flex flex-column align-items-center justify-content-center" style={{ rowGap: '1rem' }}>
               <li style={{ width: '100%' }}>
                 <figure>
                   <img id="pfpImg" alt={import.meta.env.VITE_NAME} src={UserProfileMonochrome} />
                   <label htmlFor="pfp">Profile Pciture</label>
                   <input id="pfp" type="file" onChange={(e) => readFile(e)} />
+                  <small style={{color:'var(--danger)'}}>20KB maximum size</small>
                 </figure>
               </li>
               <li style={{ width: '100%' }}>
@@ -119,12 +120,16 @@ export default function New({ title }) {
                 <input type="text" defaultValue={``} name="fullname" />
               </li>
               <li style={{ width: '100%' }}>
+                <label htmlFor="">Handler</label>
+                <input type="text" defaultValue={``} name="handler" />
+              </li>
+              <li style={{ width: '100%' }}>
                 <label htmlFor="">Bio</label>
                 <textarea name="bio" id="" cols="30" rows="5"></textarea>
               </li>
               <li style={{ width: '100%' }}>
                 <label htmlFor="">Age</label>
-                <input type="text" defaultValue={``} name="age" />
+                <input type="number" defaultValue={``} name="age" />
               </li>
               <li style={{ width: '100%' }}>
                 <label htmlFor="">Gender</label>
@@ -146,7 +151,6 @@ export default function New({ title }) {
                 </button>
               </li>
             </ul>
-
           </div>
         </div>
       </div>

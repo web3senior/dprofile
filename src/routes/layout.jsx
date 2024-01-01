@@ -24,6 +24,12 @@ export default function Root() {
     document.querySelector('#modal').classList.toggle('blur')
     document.querySelector('.cover').classList.toggle('showCover')
   }
+
+  const handleConnect = async (e) => {
+    auth.connectAgent().then((web5) => {
+      auth.readProfile()
+    })
+  }
   useEffect(() => {
     // chainID().then((res) => {
     //   let networkType
@@ -93,10 +99,10 @@ export default function Root() {
                     did://
                   </b>
                   {auth.userDidLocal.slice(8, 14)}...{auth.userDidLocal.slice(-6)}
-                  <button onClick={()=>auth.logout()}>Logout</button>
+                  <button onClick={() => auth.logout()}>Disconnect</button>
                 </p>
               ) : (
-                <button onClick={() => auth.connectAgent()}>Connect to agent</button>
+                <button onClick={() => handleConnect()}>Connect to agent</button>
               )}
             </div>
           </header>

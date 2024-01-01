@@ -52,7 +52,8 @@ button {
   background-color: #1a1a1a;
   color: var(--white);
   padding: 0.4rem 0.8rem;
-box-shadow: 4px 4px 0px 0px var(--color-primary);
+  min-width: 110px;
+  box-shadow: 4px 4px 0px 0px var(--color-primary);
   cursor: pointer;
   transition: border-color 0.25s;
 }

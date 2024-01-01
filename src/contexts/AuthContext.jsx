@@ -12,7 +12,7 @@ export const isConnected = async () => localStorage.getItem('agentConnected')
 export const localUserDid = async () => localStorage.getItem('userDid')
 
 export const protocolDefinition = {
-  protocol: 'https://mintdid.me/v59/',
+  protocol: 'https://mintdid.me/v60/',
   published: true,
   types: {
     profile: {
@@ -49,7 +49,8 @@ export const protocolDefinition = {
 export function AuthProvider({ children }) {
   const [web5, setWeb5] = useState()
   const [userDid, setUserDid] = useState()
-  const [profile, setProfile] = useState(null)
+  const [profile, setProfile] = useState()
+  const [profileBackup, setProfileBackup] = useState([])
   const [userProfile, setUserProfile] = useState(null)
   const [loading, setLoading] = useState(true)
   const [isConnectedAgent, setIsConnectedAgent] = useState(false)
@@ -63,7 +64,7 @@ export function AuthProvider({ children }) {
   function logout() {
     localStorage.removeItem('userDid')
     localStorage.removeItem('agentConnected')
-    navigate('/home')
+    window.location.reload()
     setWeb5('')
     setUserDid('')
   }
@@ -108,10 +109,13 @@ export function AuthProvider({ children }) {
       let readingProfileToast = toast.loading(`Reading recent profiles...`)
       const response = await web5.dwn.records.query({
         from: mintDIDnode,
+
         message: {
           filter: {
-            dataFormat: 'application/json',
+            // dataFormat: 'application/json',
             protocol: protocolDefinition.protocol,
+            // protocolPath: 'profile',
+            recipient: userDid,
           },
           dateSort: 'createdDescending',
         },
@@ -132,7 +136,8 @@ export function AuthProvider({ children }) {
 
         profiles.push(recordData)
         if (++i === response.records.length) {
-          setProfile(profiles.slice(0, 8))
+          setProfile(profiles.slice(0, 7))
+          setProfileBackup(profiles)
           console.log(profiles)
           toast.dismiss(readingProfileToast)
         }
@@ -142,7 +147,7 @@ export function AuthProvider({ children }) {
 
   const readUserProfile = async (recordId) => {
     return connectAgent().then(async (web5) => {
-      let readingProfileToast = toast.loading(`Reading user's profiles...`)
+      let readingProfileToast = toast.loading(`Reading user's profile...`)
       const response = await web5.dwn.records.query({
         from: mintDIDnode,
         message: {
@@ -172,13 +177,14 @@ export function AuthProvider({ children }) {
     let loadingToast = toast.loading('Connecting to agent...')
 
     try {
-      console.group('Initialize Web5')
+      console.log('Initialize Web5')
       const { web5, did: userDid } = await Web5.connect({ sync: '5s' })
-      console.log(web5, userDid)
+      console.log(web5)
       localStorage.setItem('agentConnected', true)
       localStorage.setItem('userDid', userDid)
       setWeb5(web5)
       setUserDid(userDid)
+      localStorageStatus()
       toast.success(`Connected`, { icon: '✅' })
       toast.dismiss(loadingToast)
       return web5
@@ -188,13 +194,17 @@ export function AuthProvider({ children }) {
     }
   }
 
-  useEffect(() => {
+  const localStorageStatus = () => {
     isConnected().then((res) => {
       setIsConnectedAgent(res)
     })
     localUserDid().then((res) => {
       setUserDidLocal(res)
     })
+  }
+
+  useEffect(() => {
+    localStorageStatus()
   }, [])
 
   const value = {
@@ -213,6 +223,7 @@ export function AuthProvider({ children }) {
     localUserDid,
     profile,
     setProfile,
+    profileBackup,
     connectAgent,
     logout,
   }

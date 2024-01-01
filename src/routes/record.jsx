@@ -58,13 +58,15 @@ export default function Profile({ title }) {
   }
 
   const handleNew = async () => {
+    console.log(document.querySelector('[name="bio"]').value)
     const profileData = {
       '@type': 'profile',
       fullname: document.querySelector('[name="fullname"]').value,
-      Bio: document.querySelector('[name="bio"]').value,
+      bio: document.querySelector('[name="bio"]').value,
       gender: document.querySelector('[name="gender"]').value,
-      Age: document.querySelector('[name="age"]').value,
-      picture: pfp,
+      age: document.querySelector('[name="age"]').value,
+      handler: document.querySelector('[name="handler"]').value,
+      picture: pfp === null ? document.querySelector('[name="pfp_hidden"]').value : pfp,
       author: auth.userDid,
       recipient: auth.mintDIDnode,
     }
@@ -155,11 +157,16 @@ export default function Profile({ title }) {
                 <div className={`${styles.didItem} card`}>
                   <div className="card__body">
                     <ul className=" d-flex flex-column align-items-center justify-content-center" style={{ rowGap: '1rem' }}>
-                      <li style={{ width: '100%' }}>
+                      <li className="d-flex" style={{ width: '100%' }}>
                         <figure>
-                          <img id="pfpImg" alt={import.meta.env.VITE_NAME} src={UserProfileMonochrome} />
+                          <img id="pfpImg" alt={import.meta.env.VITE_NAME} src={data.picture ? data.picture : UserProfileMonochrome} />
                           <label htmlFor="pfp">Profile Pciture</label>
                           <input id="pfp" type="file" onChange={(e) => readFile(e)} />
+                          <input type="hidden" name="pfp_hidden" defaultValue={data.picture} />
+                        </figure>
+
+                        <figure>
+                          <img src={`https://chart.googleapis.com/chart?cht=qr&chs=277x277&chl=${data.author}`} />
                         </figure>
                       </li>
                       <li style={{ width: '100%' }}>
@@ -167,14 +174,16 @@ export default function Profile({ title }) {
                         <input type="text" defaultValue={data.fullname} name="fullname" />
                       </li>
                       <li style={{ width: '100%' }}>
+                        <label htmlFor="">Handler</label>
+                        <input type="text" defaultValue={data.handler} name="handler" />
+                      </li>
+                      <li style={{ width: '100%' }}>
                         <label htmlFor="">Bio</label>
-                        <textarea name="bio" id="" cols="30" rows="5">
-                          {data.bio}
-                        </textarea>
+                        <textarea name="bio" id="" cols="30" rows="5" defaultValue={data.bio} />
                       </li>
                       <li style={{ width: '100%' }}>
                         <label htmlFor="">Age</label>
-                        <input type="text" defaultValue={data.age} name="age" />
+                        <input type="number" defaultValue={data.age} name="age" />
                       </li>
                       <li style={{ width: '100%' }}>
                         <label htmlFor="">Gender</label>
@@ -190,10 +199,8 @@ export default function Profile({ title }) {
                       <li>
                         {data.author === auth.userDid && (
                           <>
-                            <button onClick={() => handleUpdate(data.recordId)}>Update</button>
-                            <button onClick={() => handleDelete(data.recordId).then(navigate(`/home`))}>Delete</button>
-                            <button>Share</button>
-                            <button>♥</button>
+                            <button onClick={() => handleUpdate(data.recordId)} className='mr-10'>Update</button>
+                            <button onClick={() => handleDelete(data.recordId).then(navigate(`/home`))} style={{background:'#f4f4f4',color:'#333'}}>Delete</button>
                           </>
                         )}
                       </li>

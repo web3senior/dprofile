@@ -24,13 +24,29 @@ function Home({ title }) {
   const [isLoading, setIsLoading] = useState()
   const [data, setData] = useState([])
   const [activeRecipient, setActiveRecipient] = useState(null)
-  // const [profile, setProfile] = useState([])
-  //const [profile, setProfile] = useState(null)
   const auth = useAuth()
   const navigate = useNavigate()
 
+  const handleFilter = (e) => {
+    let filterValue = e.target.value.toString()
+    if (filterValue === '') {
+      e.target.disabled = true
+      auth.readProfile().then((e.target.disabled = false))
+      return
+    }
+
+    let data = auth.profileBackup.filter((item) => {
+      if (item.handler && item.handler === filterValue) return true
+      else return false
+    })
+
+    auth.setProfile(data)
+  }
+
   useEffect(() => {
-    // auth.readProfile()
+    auth.isConnected().then((res) => {
+      if (res) auth.readProfile()
+    })
   }, [])
 
   return (
@@ -41,9 +57,9 @@ function Home({ title }) {
         <div className={`__container`} data-width="medium">
           <div className={`${styles.discover} text-center d-flex flex-column align-items-center justify-content-center`}>
             <figure>
-              <img alt={import.meta.env.VITE_NAME} src={LogoCover} />
+              <img alt={import.meta.env.VITE_NAME} src={LogoCover} className={styles.heroImage} />
             </figure>
-            <input type="text" placeholder="Discover DIDs" />
+            <input type="text" placeholder="Discover profile by DIDs or handler" onChange={(e) => handleFilter(e)} />
           </div>
         </div>
 
@@ -66,7 +82,7 @@ function Home({ title }) {
 
             {!auth.profile && (
               <>
-                {[0, 0, 0, 0, 0, 0, 0, 0].map((item, i) => (
+                {[0, 0, 0, 0, 0, 0, 0].map((item, i) => (
                   <Shimmer key={i}>
                     <div className={styles.didItemShimmer}></div>
                   </Shimmer>
@@ -75,8 +91,10 @@ function Home({ title }) {
             )}
           </div>
 
+          <p className='mt-40'>Shape your decentralized identity on your local node then sync it with universe</p>
+
           <button className="mt-20" onClick={() => navigate(`/new`)}>
-            Create your DID profile
+            Create
           </button>
         </div>
       </section>

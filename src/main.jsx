@@ -5,7 +5,7 @@ import { AuthProvider } from './contexts/AuthContext'
 import './index.scss'
 import './styles/global.scss'
 
-console.log(`%c MINTDID`, 'color:#12AAFF')
+console.log(`%c ${import.meta.env.VITE_AUTHOR}`, 'color:#aaa;font-size:2rem;background:#222;')
 
 import ErrorPage from './error-page'
 const Layout = lazy(() => import('./routes/layout.jsx'))
