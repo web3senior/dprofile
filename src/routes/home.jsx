@@ -97,7 +97,7 @@ function Home({ title }) {
           <p className="mt-40">Shape your decentralized identity on your local node then sync it with universe</p>
 
           <button className="mt-20" onClick={() => navigate(`/new`)}>
-            Create
+            Create DProfile
           </button>
         </div>
       </section>

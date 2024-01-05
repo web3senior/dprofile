@@ -138,7 +138,7 @@ export function AuthProvider({ children }) {
               profiles.push(recordData)
               if (++i === response.records.length) {
                 setProfile(profiles)
-                setProfileBackup(profiles) //.slice(0, 5)
+                setProfileBackup(profiles.slice(0, 5))
                 console.log(profiles)
                 toast.dismiss(readingProfileToast)
               }
