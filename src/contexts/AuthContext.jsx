@@ -12,11 +12,11 @@ export const isConnected = async () => localStorage.getItem('agentConnected')
 export const localUserDid = async () => localStorage.getItem('userDid')
 
 export const protocolDefinition = {
-  protocol: 'https://mintdid.me/v60/',
+  protocol: 'https://dprofile.center/v1/',
   published: true,
   types: {
     profile: {
-      schema: 'https://mintdid.me/schemas/profileSchema',
+      schema: 'https://dprofile.center/schemas/profileSchema',
       dataFormats: ['application/json'],
     },
   },
@@ -56,7 +56,7 @@ export function AuthProvider({ children }) {
   const [isConnectedAgent, setIsConnectedAgent] = useState(false)
   const [userDidLocal, setUserDidLocal] = useState(null)
   const [mintDIDnode, setMintDIDnode] = useState(
-    'did:ion:EiCWZDE9w2ZMEzhqouvt-ZRJyCnAigaY4eSxmj-T7m1L4w:eyJkZWx0YSI6eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljS2V5cyI6W3siaWQiOiJkd24tc2lnIiwicHVibGljS2V5SndrIjp7ImNydiI6IkVkMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoiMV9ONVl0ZGdUU1ZON1lLY1NzdVpjR3JqVFhQX3lIck40dDRiVzBaUFFOayJ9LCJwdXJwb3NlcyI6WyJhdXRoZW50aWNhdGlvbiJdLCJ0eXBlIjoiSnNvbldlYktleTIwMjAifSx7ImlkIjoiZHduLWVuYyIsInB1YmxpY0tleUp3ayI6eyJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsIngiOiI3c2kyZHk1N05rQUt1ckxnZTN5TFV5WHlBMDBkV29xaUdTWVNVTS1hTTNRIiwieSI6InN3S19acU5ESUtPMVZYY0FPbDVMb29DR3BaZ2RuSEVXWVBsTzNUMkZnQXcifSwicHVycG9zZXMiOlsia2V5QWdyZWVtZW50Il0sInR5cGUiOiJKc29uV2ViS2V5MjAyMCJ9XSwic2VydmljZXMiOlt7ImlkIjoiZHduIiwic2VydmljZUVuZHBvaW50Ijp7ImVuY3J5cHRpb25LZXlzIjpbIiNkd24tZW5jIl0sIm5vZGVzIjpbImh0dHBzOi8vZHduLnRiZGRldi5vcmcvZHduNiIsImh0dHBzOi8vZHduLnRiZGRldi5vcmcvZHduNCJdLCJzaWduaW5nS2V5cyI6WyIjZHduLXNpZyJdfSwidHlwZSI6IkRlY2VudHJhbGl6ZWRXZWJOb2RlIn1dfX1dLCJ1cGRhdGVDb21taXRtZW50IjoiRWlEWEZROElrOVpHeUVfbWpjLXJ0cTVGWUdSMkVEbnNfeVEwU0NMcWQ1Tm9GUSJ9LCJzdWZmaXhEYXRhIjp7ImRlbHRhSGFzaCI6IkVpRHlKRTJzNGlHcWNBZGpTOC1RU1NLcVljUHhvZzV3OF95cjA1YUhXLUY1U1EiLCJyZWNvdmVyeUNvbW1pdG1lbnQiOiJFaUFzTHZhdm1BWTFJYXRlMmV6c1I2X0cxYjFqYl9mSWlfZUotU3RyRTlNSl9BIn19'
+    'did:ion:EiDiU8lQFW0PhT1batcVJ3Xi1McU7pGxWZELwK7z0qFw2Q:eyJkZWx0YSI6eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljS2V5cyI6W3siaWQiOiJkd24tc2lnIiwicHVibGljS2V5SndrIjp7ImNydiI6IkVkMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoiWTFuRjNlVjRkX3ZuWlpxaXNJdmlEOG5ZNk5RX1pFTFJORXBkVEROZXBEdyJ9LCJwdXJwb3NlcyI6WyJhdXRoZW50aWNhdGlvbiJdLCJ0eXBlIjoiSnNvbldlYktleTIwMjAifSx7ImlkIjoiZHduLWVuYyIsInB1YmxpY0tleUp3ayI6eyJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsIngiOiI3cHJuVEJJWVd5X2FuTE9VTVNQMEEzVEhkOFhPeU9iVXNybHptazRRemFrIiwieSI6IkxrRHJKZGNFVU9EY3ZuN3R2dzJZQmh0ZGpPcW1STDREdkdnVUZXUUF1RVEifSwicHVycG9zZXMiOlsia2V5QWdyZWVtZW50Il0sInR5cGUiOiJKc29uV2ViS2V5MjAyMCJ9XSwic2VydmljZXMiOlt7ImlkIjoiZHduIiwic2VydmljZUVuZHBvaW50Ijp7ImVuY3J5cHRpb25LZXlzIjpbIiNkd24tZW5jIl0sIm5vZGVzIjpbImh0dHBzOi8vZHduLnRiZGRldi5vcmcvZHduMiIsImh0dHBzOi8vZHduLnRiZGRldi5vcmcvZHduNCJdLCJzaWduaW5nS2V5cyI6WyIjZHduLXNpZyJdfSwidHlwZSI6IkRlY2VudHJhbGl6ZWRXZWJOb2RlIn1dfX1dLCJ1cGRhdGVDb21taXRtZW50IjoiRWlDT1hCWlNxWlVEeXBrUDBHd2I4T1JTN3dCWnVnTko1UDN4WUxDMGtyU1RrZyJ9LCJzdWZmaXhEYXRhIjp7ImRlbHRhSGFzaCI6IkVpQlhVaDFaajBBMWNld2M0Qjl2cDFjM1E0eTdiYkw0Nmh1QXZnQ1FCTDAtZ3ciLCJyZWNvdmVyeUNvbW1pdG1lbnQiOiJFaUJtMzNDUDMyamROYmtXQVI3VkRpcDdOYUhVSnVoc19Xd0dfZzdoc3ZGbjVnIn19'
   )
   const navigate = useNavigate()
   const location = useLocation()
@@ -106,20 +106,24 @@ export function AuthProvider({ children }) {
   // Reads the indicated record from the user's DWNs
   const readProfile = async () => {
     connectAgent().then(async (web5) => {
-      let readingProfileToast = toast.loading(`Reading recent profiles...`)
-      const response = await web5.dwn.records.query({
+      let readingProfileToast = toast.loading(`Reading recently added profiles...`)
+      web5.dwn.records.query({
         from: mintDIDnode,
 
         message: {
           filter: {
-            // dataFormat: 'application/json',
             protocol: protocolDefinition.protocol,
-            // protocolPath: 'profile',
+            protocolPath: 'profile',
+            dataFormat: 'application/json',
             recipient: userDid,
           },
           dateSort: 'createdDescending',
         },
+      }).then(response =>{
+        console.log(response)
       })
+
+      return
       console.log(response)
 
       if (response.records.length < 1) {
@@ -130,17 +134,19 @@ export function AuthProvider({ children }) {
 
       let profiles = []
       return response.records.forEach(async (record, i) => {
-        let recordData = await record.data.json()
-        recordData.recordId = record._recordId
-        recordData.author = record.author
+        record.data.json().then((recordData) => {
+          console.log(recordData)
+          recordData.recordId = record._recordId
+          recordData.author = record.author
 
-        profiles.push(recordData)
-        if (++i === response.records.length) {
-          setProfile(profiles.slice(0, 7))
-          setProfileBackup(profiles)
-          console.log(profiles)
-          toast.dismiss(readingProfileToast)
-        }
+          profiles.push(recordData)
+          if (++i === response.records.length) {
+            setProfile(profiles)
+            setProfileBackup(profiles)
+            console.log(profiles)
+            toast.dismiss(readingProfileToast)
+          }
+        })
       })
     })
   }
@@ -178,7 +184,7 @@ export function AuthProvider({ children }) {
 
     try {
       console.log('Initialize Web5')
-      const { web5, did: userDid } = await Web5.connect({ sync: '5s' })
+      const { web5, did: userDid } = await Web5.connect()//{ sync: '5s' }
       console.log(web5)
       localStorage.setItem('agentConnected', true)
       localStorage.setItem('userDid', userDid)

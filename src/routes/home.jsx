@@ -29,6 +29,7 @@ function Home({ title }) {
 
   const handleFilter = (e) => {
     let filterValue = e.target.value.toString()
+
     if (filterValue === '') {
       e.target.disabled = true
       auth.readProfile().then((e.target.disabled = false))
@@ -36,7 +37,7 @@ function Home({ title }) {
     }
 
     let data = auth.profileBackup.filter((item) => {
-      if (item.handler && item.handler === filterValue) return true
+      if (item.handler && item.handler.search(filterValue) > -1) return true
       else return false
     })
 
@@ -44,8 +45,8 @@ function Home({ title }) {
   }
 
   useEffect(() => {
-    auth.isConnected().then((res) => {
-      if (res) auth.readProfile()
+    auth.isConnected().then((bool) => {
+      if (bool) auth.readProfile()
     })
   }, [])
 
@@ -82,16 +83,18 @@ function Home({ title }) {
 
             {!auth.profile && (
               <>
-                {[0, 0, 0, 0, 0, 0, 0].map((item, i) => (
-                  <Shimmer key={i}>
-                    <div className={styles.didItemShimmer}></div>
-                  </Shimmer>
+                {[0, 0, 0, 0, 0, 0, 0, 0].map((item, i) => (
+                  <div className={`card`} key={i}>
+                    <Shimmer>
+                      <div className={styles.didItemShimmer}></div>
+                    </Shimmer>
+                  </div>
                 ))}
               </>
             )}
           </div>
 
-          <p className='mt-40'>Shape your decentralized identity on your local node then sync it with universe</p>
+          <p className="mt-40">Shape your decentralized identity on your local node then sync it with universe</p>
 
           <button className="mt-20" onClick={() => navigate(`/new`)}>
             Create

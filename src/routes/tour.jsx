@@ -110,12 +110,12 @@ function Tour({ title }) {
                 ))}
 
               {activeTour < 2 && (
-                <button onClick={() => setActiveTour((activeTour) => activeTour + 1)}>
+                <button style={{width:'atuo'}} onClick={() => setActiveTour((activeTour) => activeTour + 1)}>
                   <Icon name={`navigate_next`} />
                 </button>
               )}
               {activeTour === 2 && (
-                <button onClick={() => handleStart()}>
+                <button style={{width:'atuo'}} onClick={() => handleStart()}>
                   <Icon name={`done`} />
                 </button>
               )}

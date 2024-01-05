@@ -1,5 +1,5 @@
 {
-  "name": "mintdid",
+  "name": "dprofile",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,6 +12,7 @@
   "dependencies": {
     "@typeform/embed-react": "^3.9.0",
     "@web5/api": "^0.8.3",
+    "@web5/credentials": "^0.4.1",
     "animate.css": "^4.1.1",
     "node-stdlib-browser": "^1.2.0",
     "react": "^18.2.0",

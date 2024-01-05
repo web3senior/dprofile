@@ -29,38 +29,41 @@ export default function New({ title }) {
 
   const handleNew = async () => {
     auth.connectAgent().then(async (web5) => {
-      const profileData = {
-        '@type': 'profile',
-        fullname: document.querySelector('[name="fullname"]').value,
-        bio: document.querySelector('[name="bio"]').value,
-        gender: document.querySelector('[name="gender"]').value,
-        age: document.querySelector('[name="age"]').value,
-        handler: document.querySelector('[name="handler"]').value,
-        picture: pfp,
-        author: auth.userDid,
-        recipient: auth.userDid,
-      }
-      const { record } = await web5.dwn.records.create({
-        data: profileData,
-        message: {
-          published: true,
-          protocol: auth.protocolDefinition.protocol,
-          protocolPath: 'profile',
-          schema: auth.protocolDefinition.types.profile.schema,
-          dataFormat: auth.protocolDefinition.types.profile.dataFormats[0],
+      auth.configureProtocol().then(async (res) => {
+        const profileData = {
+          '@type': 'profile',
+          fullname: document.querySelector('[name="fullname"]').value,
+          bio: document.querySelector('[name="bio"]').value,
+          gender: document.querySelector('[name="gender"]').value,
+          age: document.querySelector('[name="age"]').value,
+          handler: document.querySelector('[name="handler"]').value,
+          picture: pfp,
           author: auth.userDid,
           recipient: auth.userDid,
-        },
-        encryption: {
-          enabled: true,
-        },
-      })
-      console.log(record)
+        }
+        const { record } = await web5.dwn.records.create({
+          data: profileData,
+          message: {
+            published: true,
+            protocol: auth.protocolDefinition.protocol,
+            protocolPath: 'profile',
+            schema: auth.protocolDefinition.types.profile.schema,
+            dataFormat: auth.protocolDefinition.types.profile.dataFormats[0],
+            author: auth.userDid,
+            recipient: auth.userDid,
+          },
+          encryption: {
+            enabled: true,
+          },
+        })
 
-      const { status } = await record.send(auth.mintDIDnode)
-      console.log(status)
-      if (status.code === 202 && status.detail === 'Accepted') toast.success(`Your Dprofile created successfully`)
-      return record
+        console.log(record)
+
+        const { status } = await record.send(auth.mintDIDnode)
+        console.log(status)
+        if (status.code === 202 && status.detail === 'Accepted') toast.success(`Your Dprofile created successfully`)
+        return record
+      })
     })
   }
 
@@ -68,6 +71,11 @@ export default function New({ title }) {
     console.log(e)
 
     if (!e.target.files || !e.target.files[0]) return
+
+    if (e.target.files[0].size > 20000) {
+      toast.error(`Maximum size for your avatar is 20KB`)
+      return false
+    }
 
     const FR = new FileReader()
 
@@ -112,7 +120,7 @@ export default function New({ title }) {
                   <img id="pfpImg" alt={import.meta.env.VITE_NAME} src={UserProfileMonochrome} />
                   <label htmlFor="pfp">Profile Pciture</label>
                   <input id="pfp" type="file" onChange={(e) => readFile(e)} />
-                  <small style={{color:'var(--danger)'}}>20KB maximum size</small>
+                  <small style={{ color: 'var(--danger)' }}>20KB maximum size</small>
                 </figure>
               </li>
               <li style={{ width: '100%' }}>
@@ -141,13 +149,6 @@ export default function New({ title }) {
               <li>
                 <button onClick={() => handleNew()} className="mr-10">
                   Submit
-                </button>
-                <button
-                  onClick={() => {
-                    auth.configureProtocol()
-                  }}
-                >
-                  install protocol
                 </button>
               </li>
             </ul>
