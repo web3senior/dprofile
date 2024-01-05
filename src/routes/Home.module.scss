@@ -28,11 +28,19 @@
 .did {
   gap: 1rem;
   margin-top: 2rem;
+
+
+
+  a {
+    color: #333;
+  }
 }
 
 .didItem {
   height: 160px;
-
+  &:hover {
+    box-shadow: 0px 3.2px 7.2px 0px rgba(131, 126, 255, 0.12), 0px 0.6px 1.8px 0px rgba(131, 126, 255, 0.10);
+  }
   figure {
     width: 100%;
     display: flex;
@@ -52,6 +60,8 @@
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+
+
 }
 
 .didItemShimmer {

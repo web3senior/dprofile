@@ -105,12 +105,11 @@ export function AuthProvider({ children }) {
   }
   // Reads the indicated record from the user's DWNs
   const readProfile = async () => {
-    connectAgent().then(async (web5) => {
+    connectAgent().then((web5) => {
       let readingProfileToast = toast.loading(`Reading recently added profiles...`)
       web5.dwn.records
         .query({
           from: mintDIDnode,
-
           message: {
             filter: {
               protocol: protocolDefinition.protocol,
@@ -138,7 +137,7 @@ export function AuthProvider({ children }) {
               profiles.push(recordData)
               if (++i === response.records.length) {
                 setProfile(profiles)
-                setProfileBackup(profiles)
+                setProfileBackup(profiles.slice(0,5))
                 console.log(profiles)
                 toast.dismiss(readingProfileToast)
               }
@@ -181,7 +180,7 @@ export function AuthProvider({ children }) {
 
     try {
       console.log('Initialize Web5')
-      const { web5, did: userDid } = await Web5.connect() //{ sync: '5s' }
+      const { web5, did: userDid } = await Web5.connect({ sync: '5s' })
       console.log(web5)
       localStorage.setItem('agentConnected', true)
       localStorage.setItem('userDid', userDid)

@@ -65,7 +65,7 @@ function Home({ title }) {
         </div>
 
         <div className={`__container text-center`} data-width="large">
-          <div className={`${styles.did} grid grid--fill`} style={{ '--data-width': '110px' }}>
+          <div className={`${styles.did} grid grid--fill`} style={{ '--data-width': '140px' }}>
             {auth.profile &&
               auth.profile.length > 0 &&
               auth.profile.map((item, i) => (
@@ -75,7 +75,7 @@ function Home({ title }) {
                       <figure>
                         <img alt={import.meta.env.VITE_NAME} src={item.picture ? item.picture : UserProfileMonochrome} />
                       </figure>
-                      <b className="mt-10">{item.fullname}</b>
+                      <p>{item.fullname}</p>
                     </div>
                   </div>
                 </Link>
@@ -83,7 +83,7 @@ function Home({ title }) {
 
             {!auth.profile && (
               <>
-                {[0, 0, 0, 0, 0, 0, 0, 0].map((item, i) => (
+                {[0, 0, 0, 0, 0, 0].map((item, i) => (
                   <div className={`card`} key={i}>
                     <Shimmer>
                       <div className={styles.didItemShimmer}></div>

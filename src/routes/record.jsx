@@ -89,12 +89,15 @@ export default function Profile({ title }) {
 
     const { status } = await record.send(auth.mintDIDnode)
     console.log(status)
+    if (status.code === 202 && status.detail === 'Accepted') {
+     navigate('/home')
+    }
 
     return record
   }
 
   const handleDelete = async (recordId) => {
-    let deleteToast = toast.loading(`Deleting your profile...`)
+    // let deleteToast = toast.loading(`Deleting your profile...`)
     const response = await auth.web5.dwn.records.delete({
       from: auth.mintDIDnode,
       message: {
@@ -105,7 +108,7 @@ export default function Profile({ title }) {
     console.log(response)
     if (response.status.code === 202 && response.status.detail === 'Accepted') {
       toast.success(`Your profile deleted successfully`)
-      toast.dismiss(deleteToast)
+      // toast.dismiss(deleteToast)
     } else toast.error(response.status.detail)
     return response
   }
@@ -159,7 +162,7 @@ export default function Profile({ title }) {
                     <ul className=" d-flex flex-column align-items-center justify-content-center" style={{ rowGap: '1rem' }}>
                       <li className="d-flex" style={{ width: '100%' }}>
                         <figure>
-                          <img id="pfpImg" alt={import.meta.env.VITE_NAME} src={data.picture ? data.picture : UserProfileMonochrome} />
+                          <img id="pfpImg" className={styles.pfpImg} alt={import.meta.env.VITE_NAME} src={data.picture ? data.picture : UserProfileMonochrome} />
                           <label htmlFor="pfp">Profile Pciture</label>
                           <input id="pfp" type="file" onChange={(e) => readFile(e)} />
                           <input type="hidden" name="pfp_hidden" defaultValue={data.picture} />
