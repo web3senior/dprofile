@@ -107,47 +107,44 @@ export function AuthProvider({ children }) {
   const readProfile = async () => {
     connectAgent().then(async (web5) => {
       let readingProfileToast = toast.loading(`Reading recently added profiles...`)
-      web5.dwn.records.query({
-        from: mintDIDnode,
+      web5.dwn.records
+        .query({
+          from: mintDIDnode,
 
-        message: {
-          filter: {
-            protocol: protocolDefinition.protocol,
-            protocolPath: 'profile',
-            dataFormat: 'application/json',
-            recipient: userDid,
+          message: {
+            filter: {
+              protocol: protocolDefinition.protocol,
+              protocolPath: 'profile',
+              dataFormat: 'application/json',
+              recipient: userDid,
+            },
+            dateSort: 'createdDescending',
           },
-          dateSort: 'createdDescending',
-        },
-      }).then(response =>{
-        console.log(response)
-      })
-
-      return
-      console.log(response)
-
-      if (response.records.length < 1) {
-        toast.dismiss(readingProfileToast)
-        toast(`There is no record`, { icon: '⚠️' })
-        return false
-      }
-
-      let profiles = []
-      return response.records.forEach(async (record, i) => {
-        record.data.json().then((recordData) => {
-          console.log(recordData)
-          recordData.recordId = record._recordId
-          recordData.author = record.author
-
-          profiles.push(recordData)
-          if (++i === response.records.length) {
-            setProfile(profiles)
-            setProfileBackup(profiles)
-            console.log(profiles)
-            toast.dismiss(readingProfileToast)
-          }
         })
-      })
+        .then((response) => {
+          if (response.records.length < 1) {
+            toast.dismiss(readingProfileToast)
+            toast(`There is no record`, { icon: '⚠️' })
+            return false
+          }
+
+          let profiles = []
+          return response.records.forEach(async (record, i) => {
+            record.data.json().then((recordData) => {
+              console.log(recordData)
+              recordData.recordId = record._recordId
+              recordData.author = record.author
+
+              profiles.push(recordData)
+              if (++i === response.records.length) {
+                setProfile(profiles)
+                setProfileBackup(profiles)
+                console.log(profiles)
+                toast.dismiss(readingProfileToast)
+              }
+            })
+          })
+        })
     })
   }
 
@@ -184,7 +181,7 @@ export function AuthProvider({ children }) {
 
     try {
       console.log('Initialize Web5')
-      const { web5, did: userDid } = await Web5.connect()//{ sync: '5s' }
+      const { web5, did: userDid } = await Web5.connect() //{ sync: '5s' }
       console.log(web5)
       localStorage.setItem('agentConnected', true)
       localStorage.setItem('userDid', userDid)

@@ -28,7 +28,7 @@ function Home({ title }) {
   const navigate = useNavigate()
 
   const handleFilter = (e) => {
-    let filterValue = e.target.value.toString()
+    let filterValue = e.target.value.toString().toLowerCase()
 
     if (filterValue === '') {
       e.target.disabled = true
@@ -37,7 +37,7 @@ function Home({ title }) {
     }
 
     let data = auth.profileBackup.filter((item) => {
-      if (item.handler && item.handler.search(filterValue) > -1) return true
+      if ((item.handler.toLowerCase() && item.handler.search(filterValue) > -1) || item.author.toLowerCase() === filterValue) return true
       else return false
     })
 
