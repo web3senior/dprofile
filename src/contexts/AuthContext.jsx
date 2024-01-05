@@ -47,7 +47,7 @@ export const protocolDefinition = {
 }
 
 export function AuthProvider({ children }) {
-  const [web5, setWeb5] = useState()
+  const [web5, setWeb5] = useState(null)
   const [userDid, setUserDid] = useState()
   const [profile, setProfile] = useState()
   const [profileBackup, setProfileBackup] = useState([])
@@ -115,12 +115,13 @@ export function AuthProvider({ children }) {
               protocol: protocolDefinition.protocol,
               protocolPath: 'profile',
               dataFormat: 'application/json',
-              recipient: userDid,
+              //recipient: userDid,
             },
             dateSort: 'createdDescending',
           },
         })
         .then((response) => {
+          console.log(response)
           if (response.records.length < 1) {
             toast.dismiss(readingProfileToast)
             toast(`There is no record`, { icon: '⚠️' })
@@ -137,7 +138,7 @@ export function AuthProvider({ children }) {
               profiles.push(recordData)
               if (++i === response.records.length) {
                 setProfile(profiles)
-                setProfileBackup(profiles.slice(0,5))
+                setProfileBackup(profiles) //.slice(0, 5)
                 console.log(profiles)
                 toast.dismiss(readingProfileToast)
               }
@@ -176,6 +177,7 @@ export function AuthProvider({ children }) {
    * @returns
    */
   const connectAgent = async () => {
+    if (web5 !== null) return web5
     let loadingToast = toast.loading('Connecting to agent...')
 
     try {
