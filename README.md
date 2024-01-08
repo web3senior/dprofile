@@ -8,6 +8,7 @@ Discover users DIDs
 
 ## TODO
 
+- NFT tag support
 - Call all APIs on backend side
 - Check duplicated handler
 - Add social share icons

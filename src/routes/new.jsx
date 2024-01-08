@@ -139,7 +139,7 @@ export default function New({ title }) {
                 <label htmlFor="">Age</label>
                 <input type="number" defaultValue={``} name="age" />
               </li>
-              <li style={{ width: '100%' }}>
+              <li style={{ width: '100%' ,display: 'none'}} >
                 <label htmlFor="">Gender</label>
                 <select name="gender" id="">
                   <option value="female">Female</option>

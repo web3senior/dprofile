@@ -41,16 +41,15 @@ export default function Profile({ title }) {
       },
     })
 
-    const { status } = await record.update({
+    const { status } = await record.update({data:{
       '@type': 'profile',
       fullname: document.querySelector('[name="fullname"]').value,
-      Bio: document.querySelector('[name="bio"]').value,
+      bio: document.querySelector('[name="bio"]').value,
       gender: document.querySelector('[name="gender"]').value,
-      Age: document.querySelector('[name="age"]').value,
-      picture: pfp,
-      author: auth.userDid,
-      recipient: auth.mintDIDnode,
-    })
+      age: document.querySelector('[name="age"]').value,
+      handler: document.querySelector('[name="handler"]').value,
+      picture: pfp === null ? document.querySelector('[name="pfp_hidden"]').value : pfp,
+    }})
     console.log(status)*/
     // Update doesn't work properly so I have to delete the RECORD then recreate it like update/ overwrite
     handleDelete(recordId).then((response) => {
@@ -93,7 +92,7 @@ export default function Profile({ title }) {
     const { status } = await record.send(auth.mintDIDnode)
     console.log(status)
     if (status.code === 202 && status.detail === 'Accepted') {
-     navigate('/home')
+      navigate('/home')
     }
 
     return record
@@ -191,7 +190,7 @@ export default function Profile({ title }) {
                         <label htmlFor="">Age</label>
                         <input type="number" defaultValue={data.age} name="age" />
                       </li>
-                      <li style={{ width: '100%' }}>
+                      <li style={{ width: '100%', display: 'none' }}>
                         <label htmlFor="">Gender</label>
                         <select name="gender" id="" defaultValue={data.gender}>
                           <option value="female">Female</option>
@@ -205,8 +204,12 @@ export default function Profile({ title }) {
                       <li>
                         {data.author === auth.userDid && (
                           <>
-                            <button onClick={() => handleUpdate(data.recordId)} className='mr-10'>Update</button>
-                            <button onClick={() => handleDelete(data.recordId).then(navigate(`/home`))} style={{background:'#f4f4f4',color:'#333'}}>Delete</button>
+                            <button onClick={() => handleUpdate(data.recordId)} className="mr-10">
+                              Update
+                            </button>
+                            <button onClick={() => handleDelete(data.recordId).then(navigate(`/home`))} style={{ background: '#f4f4f4', color: '#333' }}>
+                              Delete
+                            </button>
                           </>
                         )}
                       </li>
@@ -219,21 +222,17 @@ export default function Profile({ title }) {
         </div>
 
         <div className={`card ${styles.badge}`}>
-<div className='card__header'>
-  User's badge (VC)
-</div>
-<div className='card__body d-flex' style={{gap:'1rem'}}>
-<figure>
-  <img src={TbdBadge}/>
-</figure>
-<figure>
-  <img src={DprofileBadge}/>
-</figure>
-</div>
+          <div className="card__header">User's badge (VC)</div>
+          <div className="card__body d-flex" style={{ gap: '1rem' }}>
+            <figure>
+              <img src={TbdBadge} />
+            </figure>
+            <figure>
+              <img src={DprofileBadge} />
+            </figure>
+          </div>
         </div>
       </div>
-
-
     </section>
   )
 }
