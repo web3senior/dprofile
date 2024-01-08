@@ -7,6 +7,9 @@ import { useAuth } from '../contexts/AuthContext'
 import Shimmer from './helper/Shimmer'
 import Icon from './helper/MaterialIcon'
 import UserProfileMonochrome from './../../src/assets/user-profile-monochrome.svg'
+import TbdBadge from './../../src/assets/tbd-badge.svg'
+import DprofileBadge from './../../src/assets/dprofile-badge.svg'
+
 import styles from './Record.module.scss'
 import Loading from './components/LoadingSpinner'
 
@@ -214,7 +217,23 @@ export default function Profile({ title }) {
             </>
           )}
         </div>
+
+        <div className={`card ${styles.badge}`}>
+<div className='card__header'>
+  User's badge (VC)
+</div>
+<div className='card__body d-flex' style={{gap:'1rem'}}>
+<figure>
+  <img src={TbdBadge}/>
+</figure>
+<figure>
+  <img src={DprofileBadge}/>
+</figure>
+</div>
+        </div>
       </div>
+
+
     </section>
   )
 }
