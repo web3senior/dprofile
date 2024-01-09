@@ -1,4 +1,4 @@
-# About Dprofile
+# Dprofile
 This project aims to demonstrate the capabilities of Web5 and decentralized identifiers (DIDs) in building user-centric applications. It introduces a platform where users can create and manage their decentralized profiles, share them with others, and control who can access their personal information.
 
 ## Inspiration
@@ -16,6 +16,9 @@ One of the main challenges encountered during development was the intricacies of
 ## Future Directions
 This project serves as a proof-of-concept for the potential of Web5 and decentralized identifiers in revolutionizing identity management. Future development of the platform could include advanced privacy features, such as selective sharing of profile information and fine-grained control over access permissions. Additionally, integrating with existing social media platforms and enabling seamless profile interoperability could further enhance its usability and adoption.
 
+## Presentation
+https://youtu.be/fsVxyTGv0n0
+
 ## Demo
 [https://dprofile.center](https://dprofile.center)
 
@@ -27,4 +30,4 @@ This project serves as a proof-of-concept for the potential of Web5 and decentra
 - Export/ improt option
 - Add GitHub Icon
 - Remove collect third-party script (MS Clarity)
-- Add social meta tags per did
+- Add social meta tags per DID
